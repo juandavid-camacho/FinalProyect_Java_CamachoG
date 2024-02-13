@@ -63,6 +63,20 @@ public class University {
 
     }
 
+    public String[] getStudentsButtons() {
+
+        String[] print = new String[studentList.size()];
+
+        for (int i = 0; i < studentList.size(); i++) {
+
+            print[i] = studentList.get(i).getID();
+
+        }
+
+        return print;
+
+    }
+
     public List<Teacher> getTeacherList() {
         return this.teacherList;
     }
@@ -88,7 +102,7 @@ public class University {
 
     public String printTeachers() {
 
-        String print = "<html> <strong> ID | Name | Age | Hourly Salary | Weekly Hours | Monthly Salary | Full Time? |</strong><br>";
+        String print = "<html><strong> ID | Name | Age | Hourly Salary | Weekly Hours | Monthly Salary | Full Time? |</strong><br>";
 
         for (Teacher teacher : teacherList) {
 
@@ -152,6 +166,10 @@ public class University {
 
         return print;
 
+    }
+
+    public void addClass(Course course) {
+        classList.add(course);
     }
 
 }
