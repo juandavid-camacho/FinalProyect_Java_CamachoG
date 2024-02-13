@@ -9,7 +9,6 @@ public class University {
     private List<Course> classList;
 
     public University() {
-
     }
 
     public University(List<Student> studentList, List<Teacher> teacherList, List<Course> classList) {
@@ -26,6 +25,10 @@ public class University {
         this.studentList = studentList;
     }
 
+    public void addStudent(Student student) {
+        studentList.add(student);
+    }
+
     public Student getStudentByID(String ID) {
 
         Student stu = null;
@@ -38,6 +41,21 @@ public class University {
 
         }
         return stu;
+
+    }
+
+    public String printStudents(List<Student> specifiedStudentList) {
+
+        String print = "<html> <strong> ID | Name | Age </strong><br>";
+
+        for (Student student : specifiedStudentList) {
+
+            print += "<font style = 'font-weight: normal;'>" + student.getID() + " | " + student.getName() + " | "
+                    + student.getAge() + "</font><br>";
+
+        }
+        print += "</html>";
+        return print;
 
     }
 
@@ -81,12 +99,55 @@ public class University {
 
     }
 
+    public String[] getTeachersButtons() {
+
+        String[] print = new String[teacherList.size()];
+
+        for (int i = 0; i < teacherList.size(); i++) {
+
+            print[i] = teacherList.get(i).getID();
+
+        }
+
+        return print;
+
+    }
+
     public List<Course> getClassList() {
         return this.classList;
     }
 
     public void setClassList(List<Course> classList) {
         this.classList = classList;
+    }
+
+    public String printClasses() {
+
+        String print = "<html> <strong> ID | Name | Classroom | </strong><br>";
+
+        for (Course course : classList) {
+
+            print += "<font style = 'font-weight: normal;'>" + (course.getID() + " | " + course.getName() + " | "
+                    + course.getClassroom() + "</font><br>");
+
+        }
+        print += "<br>Choose one of the options down below to learn more of a specific class: </html>";
+        return print;
+
+    }
+
+    public String[] getClassesButtons() {
+
+        String[] print = new String[classList.size()];
+
+        for (int i = 0; i < classList.size(); i++) {
+
+            print[i] = classList.get(i).getID();
+
+        }
+
+        return print;
+
     }
 
 }

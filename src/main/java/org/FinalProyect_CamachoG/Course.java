@@ -10,14 +10,17 @@ public class Course {
     private List<Student> studentList;
     private Teacher assignedTeacher;
     private int weeklyHours;
+    private String ID;
 
     public Course(String name, String classroom, List<Student> studentList, Teacher assignedTeacher, int weeklyHours,
+            int ID,
             String description) {
         this.name = name;
         this.classroom = classroom;
         this.studentList = studentList;
         this.assignedTeacher = assignedTeacher;
         this.weeklyHours = weeklyHours;
+        this.ID = "CLASS" + ID;
         this.description = description;
     }
 
@@ -43,6 +46,10 @@ public class Course {
 
     public void setStudentList(List<Student> studentList) {
         this.studentList = studentList;
+    }
+
+    public void addStudent(Student student) {
+        studentList.add(student);
     }
 
     public Teacher getAssignedTeacher() {
@@ -71,6 +78,10 @@ public class Course {
 
     public void addWeeklyHours(int hoursToAdd) {
         weeklyHours += hoursToAdd;
+    }
+
+    public String getID() {
+        return this.ID;
     }
 
 }

@@ -27,12 +27,28 @@ public class Initializations {
         u.setTeacherList(teacherList);
 
         List<Course> classList = new ArrayList<Course>();
-        classList.add(new Course("Intoduction to Programming", "A201", Arrays.asList(
-                new Student[] { u.getStudentByID("STU1"), u.getStudentByID("STU3"), u.getStudentByID("STU5") }),
-                u.getTeacherByID("PROF1"), 4, "Intro to programming in Java & Python"));
+
+        List<Student> studentList1 = new ArrayList<Student>(Arrays.asList(
+                new Student[] { u.getStudentByID("STU1"), u.getStudentByID("STU3"), u.getStudentByID("STU5") }));
+
+        classList.add(new Course("Intoduction to Programming", "A201", studentList1,
+                u.getTeacherByID("PROF1"), 4, 1, "Intro to programming in Java & Python"));
+
+        List<Student> studentList2 = new ArrayList<Student>(Arrays.asList(
+                new Student[] { u.getStudentByID("STU2") }));
+
         classList.add(new Course("Object Oriented Programming", "B108",
-                Arrays.asList(new Student[] { u.getStudentByID("STU2") }), u.getTeacherByID("PROF2"), 6,
+                studentList2, u.getTeacherByID("PROF2"), 6, 2,
                 "POO in Java"));
+
+        List<Student> studentList3 = new ArrayList<Student>(Arrays.asList(
+                new Student[] { u.getStudentByID("STU4"), u.getStudentByID("STU6") }));
+
+        classList.add(new Course("Testing", "B108",
+                studentList3, u.getTeacherByID("PROF2"), 6, 3,
+                "Testing automation"));
+
+        u.setClassList(classList);
 
     }
 
