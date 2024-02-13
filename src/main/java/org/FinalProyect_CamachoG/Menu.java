@@ -3,6 +3,7 @@ package main.java.org.FinalProyect_CamachoG;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
 public class Menu {
@@ -130,6 +131,7 @@ public class Menu {
         String description = JOptionPane.showInputDialog("Please enter a description for " + name + ": ");
         String weeklyHours = JOptionPane.showInputDialog("Now please enter the weekly hours for this class: ");
         Teacher assignedTeacher = null;
+        List<Student> studentList = u.getStudentList();
 
         String[] buttonsAC_T = u.getTeachersButtons();
         int teacherListMenu = JOptionPane.showOptionDialog(null,
@@ -143,6 +145,20 @@ public class Menu {
                 assignedTeacher = u.getTeacherList().get(i);
             }
         }
+
+        Object[] students = new Object[studentList.size()];
+
+        for (int i = 0; i < studentList.size(); i++) {
+
+            students[i] = new JCheckBox(studentList.get(i).getID());
+
+        }
+
+        int student = JOptionPane.showOptionDialog(null, "Tick the Students that will be in the class: ",
+                "Select Students in the class", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                students, students[1]);
+
+        System.out.println(student);
 
     }
 
