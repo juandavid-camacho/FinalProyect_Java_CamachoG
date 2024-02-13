@@ -1,6 +1,8 @@
 package main.java.org.FinalProyect_CamachoG;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
@@ -60,7 +62,7 @@ public class Menu {
 
     }
 
-    public static void handleUserInputClassList(int classListMenu, University u) {
+    private static void handleUserInputClassList(int classListMenu, University u) {
 
         List<Course> classList = u.getClassList();
         String print = "";
@@ -93,14 +95,14 @@ public class Menu {
 
     }
 
-    public static void addStudent(University u) {
+    private static void addStudent(University u) {
 
         String name = JOptionPane.showInputDialog("Please enter the student's name: ");
-        String age = JOptionPane.showInputDialog("Now please enter the student's age: ");
+        int age = validateInt(JOptionPane.showInputDialog("Now please enter the student's age: "), u);
 
         String[] buttonsAS = u.getClassesButtons();
         int classListMenu = JOptionPane.showOptionDialog(null,
-                "Now please select the ID of class you want to enroll " + name + " in:\nList of Classes: \n"
+                "Now please select the ID of class you want to enroll " + name + " in:\nList of Classes: \n "
                         + u.printClasses(),
                 "Enroll student in a class",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttonsAS, buttonsAS[0]);
@@ -109,7 +111,7 @@ public class Menu {
 
             if (i == classListMenu) {
 
-                Student newStu = new Student(name, Integer.parseInt(age), u.getStudentList().size() + 1);
+                Student newStu = new Student(name, age, u.getStudentList().size() + 1);
                 u.addStudent(newStu);
                 u.getClassList().get(i).addStudent(newStu);
 
@@ -125,18 +127,20 @@ public class Menu {
 
     }
 
-    public static void addClass(University u) {
+    private static void addClass(University u) {
 
         String name = JOptionPane.showInputDialog("Please enter the class' name: ");
         String description = JOptionPane.showInputDialog("Please enter a description for " + name + ": ");
-        String weeklyHours = JOptionPane.showInputDialog("Now please enter the weekly hours for this class: ");
+        String classroom = JOptionPane.showInputDialog("Please enter the classroom of " + name + ": ");
+        int weeklyHours = validateInt(
+                JOptionPane.showInputDialog("Now please enter the weekly hours for this class: "), u);
         Teacher assignedTeacher = null;
         List<Student> studentList = u.getStudentList();
 
         String[] buttonsAC_T = u.getTeachersButtons();
         int teacherListMenu = JOptionPane.showOptionDialog(null,
-                "Now please select the ID of the teacher that will dictate " + name + ".\n List of teachers: "
-                        + u.printClasses(),
+                "Now please select the ID of the teacher that will dictate " + name + ". <br> List of teachers: "
+                        + u.printTeachers(),
                 "Select teacher",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttonsAC_T, buttonsAC_T[0]);
 
@@ -146,19 +150,93 @@ public class Menu {
             }
         }
 
-        Object[] students = new Object[studentList.size()];
+        int numStudents = validateInt(JOptionPane.showInputDialog(
+                "Please the amount of students this class will start with (more can be added later): "), u);
 
-        for (int i = 0; i < studentList.size(); i++) {
+        if (numStudents <= studentList.size()) {
 
-            students[i] = new JCheckBox(studentList.get(i).getID());
+            List<Student> studentList1 = new ArrayList<Student>();
+            String[] buttonsAC_S = u.getStudentsButtons();
+
+            for (int i = 0; i < numStudents; i++) {
+
+                String studentListMenu = JOptionPane.showInputDialog(null,
+                        "Please select your " + i + 1 + "° student to enroll in " + name + ": ",
+                        "Select Students",
+                        JOptionPane.QUESTION_MESSAGE, null, buttonsAC_S, buttonsAC_S[0]).toString();
+
+                Student student = u.getStudentByID(studentListMenu);
+                studentList1.add(student);
+                buttonsAC_S = removeItem(buttonsAC_S, getIndexOf(buttonsAC_S, studentListMenu));
+
+            }
+
+            Course course = new Course(name, classroom, studentList1, assignedTeacher, weeklyHours,
+                    u.getClassList().size() + 1, description);
+            u.addClass(course);
+            JOptionPane.showMessageDialog(null,
+                    name + " Was successfully added to our DB with ID:" + course.getID(),
+                    "Successfully added a class",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        } else if (numStudents <= studentList.size()) {
+
+            JOptionPane.showMessageDialog(null,
+                    "Invalid number of students, please enter a number lower than the amount of current active students: "
+                            + studentList.size(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            mainMenu(u);
 
         }
 
-        int student = JOptionPane.showOptionDialog(null, "Tick the Students that will be in the class: ",
-                "Select Students in the class", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                students, students[1]);
+    }
 
-        System.out.println(student);
+    private static String[] removeItem(String[] list, int index) {
+
+        String[] removed = new String[list.length - 1];
+        boolean flag = false;
+
+        for (int i = 0; i < list.length; i++) {
+            if (flag == false && i != index) {
+                removed[i] = list[i];
+            } else if (i == index && i < list.length - 1 && flag == false) {
+                flag = true;
+                removed[i] = list[i + 1];
+            } else if (i < list.length - 1) {
+                removed[i] = list[i + 1];
+            }
+        }
+        return removed;
+    }
+
+    private static int getIndexOf(String[] list, String item) {
+
+        int index = -1;
+        for (int i = 0; i < list.length; i++) {
+            if (item.equals(list[i])) {
+                System.out.println(item + " | " + list[i] + " | " + i);
+                index = i;
+                break;
+            }
+
+        }
+        return index;
+
+    }
+
+    private static int validateInt(String pane, University u) {
+
+        int integer = 0;
+
+        try {
+            integer = Integer.parseInt(pane);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Invalid input, please enter a number", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            mainMenu(u);
+        }
+
+        return integer;
 
     }
 
