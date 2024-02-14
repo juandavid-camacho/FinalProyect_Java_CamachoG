@@ -13,8 +13,9 @@ import javax.swing.JOptionPane;
 
 public class Menu {
 
-    static ImageIcon universityLogo = new ImageIcon("resources/GlobantUniversity_logo.png");
+    static ImageIcon universityLogo = new ImageIcon("resources/images/GlobantUniversity_logo.png");
 
+    // public static method to display the main menu from the class main
     public static void mainMenu(University u) {
 
         int mainMenu;
@@ -70,6 +71,10 @@ public class Menu {
 
     }
 
+    // all methods down below will now be private as they are only intended to be
+    // used within the Menu class
+    // handleUserInputClassList will take the classID we just gathered and display
+    // the specific info of the class
     private static void handleUserInputClassList(String classID, University u) {
 
         String print = "";
@@ -145,8 +150,9 @@ public class Menu {
 
             for (int i = 0; i < numStudents; i++) {
 
+                int numStudent = i + 1;
                 String studentListMenu = JOptionPane.showInputDialog(null,
-                        "Please select your " + i + 1 + "° student to enroll in " + name + ": ",
+                        "Please select your " + (numStudent) + "° student to enroll in " + name + ": ",
                         "Select Students",
                         JOptionPane.QUESTION_MESSAGE, null, buttonsAC_S, buttonsAC_S[0]).toString();
 
@@ -164,13 +170,12 @@ public class Menu {
                     "Successfully added a class",
                     JOptionPane.INFORMATION_MESSAGE);
 
-        } else if (numStudents <= studentList.size()) {
+        } else if (numStudents > studentList.size()) {
 
             JOptionPane.showMessageDialog(null,
                     "Invalid number of students, please enter a number lower than the amount of current active students: "
                             + studentList.size(),
                     "Error", JOptionPane.ERROR_MESSAGE);
-            mainMenu(u);
 
         }
 
@@ -190,6 +195,9 @@ public class Menu {
 
     }
 
+    // removeItem and getIndexOf are methods oriented towards lists, they helped me
+    // to remove a student from their buttons list once they are chosen by the user
+    // to be in a class
     private static String[] removeItem(String[] list, int index) {
 
         String[] removed = new String[list.length - 1];
@@ -222,6 +230,9 @@ public class Menu {
 
     }
 
+    // eventhough most of the program is based on JOptionPanes with specific buttons
+    // and dropdown menus, this method will help validate the fields that need to be
+    // ints for a certain object construction without crashing the program
     private static int validateInt(String pane, University u) {
 
         int integer = 0;

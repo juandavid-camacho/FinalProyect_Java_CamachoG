@@ -15,6 +15,8 @@ public class Teacher extends Person {
         calculateSalary(baseSalary, weeklyHours, partTime);
     }
 
+    // as new teachers are added their salary will be calculated inmediately with
+    // the given constraints
     private void calculateSalary(double baseSalary, int hours, boolean partTime) {
 
         if (partTime) {
