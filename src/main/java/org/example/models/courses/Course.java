@@ -87,4 +87,20 @@ public class Course {
         return this.ID;
     }
 
+    public boolean isStudentInClass(Student studentToCheck) {
+
+        boolean is = false;
+
+        for (Student student : studentList) {
+            if (student.equals(studentToCheck)) {
+                is = true;
+                break;
+            }
+
+        }
+
+        return is;
+
+    }
+
 }

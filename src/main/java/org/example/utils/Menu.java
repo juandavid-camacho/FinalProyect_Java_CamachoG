@@ -40,9 +40,9 @@ public class Menu {
                 case 1:
 
                     String[] buttonsCL = u.getClassesButtons();
-                    int classListMenu = JOptionPane.showOptionDialog(null, u.printClasses(), "List of Classes",
-                            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, buttonsCL, buttonsCL[0]);
-                    handleUserInputClassList(classListMenu, u);
+                    String classListMenu = JOptionPane.showInputDialog(null, u.printClasses(), "List of Classes",
+                            JOptionPane.INFORMATION_MESSAGE, null, buttonsCL, buttonsCL[0]).toString();
+                    handleUserInputClassList(classListMenu.substring(0, classListMenu.indexOf(" | ")), u);
                     break;
 
                 case 2:
@@ -59,40 +59,35 @@ public class Menu {
                     addClass(u);
                     break;
 
+                case 5:
+                    classStudentIn(u);
+                    break;
+
             }
 
         } while (mainMenu != 6);
 
     }
 
-    private static void handleUserInputClassList(int classListMenu, University u) {
+    private static void handleUserInputClassList(String classID, University u) {
 
-        List<Course> classList = u.getClassList();
         String print = "";
         String name = "";
 
-        for (int i = 0; i < classList.size(); i++) {
-
-            if (i == classListMenu) {
-
-                Course course = classList.get(i);
-                name = course.getName();
-                print = "<html> <strong> Displaying information for " + course.getName() + " </strong><br>"
-                        + "<br> Description: <br><font style = 'font-weight: normal;'>" + course.getDescription()
-                        + "</font><br>"
-                        + "Classroom: <br><font style = 'font-weight: normal;'>" + course.getClassroom() + "</font><br>"
-                        + "Weekly Hours: <br><font style = 'font-weight: normal;'>" + course.getWeeklyHours()
-                        + "</font><br>"
-                        + "Teacher & ID: <br><font style = 'font-weight: normal;'>"
-                        + course.getAssignedTeacher().getName() + " | " + course.getAssignedTeacher().getID()
-                        + "</font><br>"
-                        + "Student list: <br>"
-                        + u.printStudents(course.getStudentList())
-                        + "</font><br>";
-
-            }
-
-        }
+        Course course = u.getClassByID(classID);
+        name = course.getName();
+        print = "<html> <strong> Displaying information for " + course.getName() + " </strong><br>"
+                + "<br> Description: <br><font style = 'font-weight: normal;'>" + course.getDescription()
+                + "</font><br>"
+                + "Classroom: <br><font style = 'font-weight: normal;'>" + course.getClassroom() + "</font><br>"
+                + "Weekly Hours: <br><font style = 'font-weight: normal;'>" + course.getWeeklyHours()
+                + "</font><br>"
+                + "Teacher & ID: <br><font style = 'font-weight: normal;'>"
+                + course.getAssignedTeacher().getName() + " | " + course.getAssignedTeacher().getID()
+                + "</font><br>"
+                + "Student list: <br>"
+                + u.printStudents(course.getStudentList())
+                + "</font><br>";
 
         JOptionPane.showMessageDialog(null, print, name, JOptionPane.INFORMATION_MESSAGE);
 
@@ -104,29 +99,21 @@ public class Menu {
         int age = validateInt(JOptionPane.showInputDialog("Now please enter the student's age: "), u);
 
         String[] buttonsAS = u.getClassesButtons();
-        int classListMenu = JOptionPane.showOptionDialog(null,
-                "Now please select the ID of class you want to enroll " + name + " in:\nList of Classes: \n "
-                        + u.printClasses(),
+        String classListMenu = JOptionPane.showInputDialog(null,
+                "Now please select the ID of class you want to enroll " + name + " in:",
                 "Enroll student in a class",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttonsAS, buttonsAS[0]);
+                JOptionPane.QUESTION_MESSAGE, null, buttonsAS, buttonsAS[0]).toString();
 
-        for (int i = 0; i < u.getClassList().size(); i++) {
+        Student newStu = new Student(name, age, u.getStudentList().size() + 1);
+        u.addStudent(newStu);
+        u.getClassByID(classListMenu.substring(0, classListMenu.indexOf(" | "))).addStudent(newStu);
 
-            if (i == classListMenu) {
-
-                Student newStu = new Student(name, age, u.getStudentList().size() + 1);
-                u.addStudent(newStu);
-                u.getClassList().get(i).addStudent(newStu);
-
-                JOptionPane.showMessageDialog(null,
-                        name + " Was successfully added to our DB with ID:" + newStu.getID() + " and to the "
-                                + u.getClassList().get(i).getName() + " class.",
-                        "Successfully added a student",
-                        JOptionPane.INFORMATION_MESSAGE);
-
-            }
-
-        }
+        JOptionPane.showMessageDialog(null,
+                name + " Was successfully added to our DB with ID:" + newStu.getID() + " and to the "
+                        + u.getClassByID(classListMenu.substring(0, classListMenu.indexOf(" | "))).getName()
+                        + " class.",
+                "Successfully added a student",
+                JOptionPane.INFORMATION_MESSAGE);
 
     }
 
@@ -141,17 +128,11 @@ public class Menu {
         List<Student> studentList = u.getStudentList();
 
         String[] buttonsAC_T = u.getTeachersButtons();
-        int teacherListMenu = JOptionPane.showOptionDialog(null,
-                "Now please select the ID of the teacher that will dictate " + name + ". <br> List of teachers: "
-                        + u.printTeachers(),
-                "Select teacher",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttonsAC_T, buttonsAC_T[0]);
+        String teacherListMenu = JOptionPane.showInputDialog(null,
+                "Now please select the ID of the teacher that will dictate " + name + ":",
+                "Select teacher", JOptionPane.QUESTION_MESSAGE, null, buttonsAC_T, buttonsAC_T[0]).toString();
 
-        for (int i = 0; i < u.getTeacherList().size(); i++) {
-            if (i == teacherListMenu) {
-                assignedTeacher = u.getTeacherList().get(i);
-            }
-        }
+        assignedTeacher = u.getTeacherByID(teacherListMenu.substring(0, teacherListMenu.indexOf(" | ")));
 
         int numStudents = validateInt(JOptionPane.showInputDialog(
                 "Please the amount of students this class will start with (more can be added later): "), u);
@@ -168,7 +149,7 @@ public class Menu {
                         "Select Students",
                         JOptionPane.QUESTION_MESSAGE, null, buttonsAC_S, buttonsAC_S[0]).toString();
 
-                Student student = u.getStudentByID(studentListMenu);
+                Student student = u.getStudentByID(studentListMenu.substring(0, studentListMenu.indexOf(" | ")));
                 studentList1.add(student);
                 buttonsAC_S = removeItem(buttonsAC_S, getIndexOf(buttonsAC_S, studentListMenu));
 
@@ -191,6 +172,20 @@ public class Menu {
             mainMenu(u);
 
         }
+
+    }
+
+    private static void classStudentIn(University u) {
+
+        String[] buttonsAC_S = u.getStudentsButtons();
+
+        String stuMenu = JOptionPane.showInputDialog(null, "Please select the student to check: ",
+                "Select Students",
+                JOptionPane.QUESTION_MESSAGE, null, buttonsAC_S, buttonsAC_S[0]).toString();
+        Student student = u.getStudentByID(stuMenu.substring(0, stuMenu.indexOf(" | ")));
+
+        JOptionPane.showMessageDialog(null, u.getClassesofStudent(student), "Classes of " + student.getName(),
+                JOptionPane.INFORMATION_MESSAGE);
 
     }
 
