@@ -25,7 +25,8 @@ public class Menu {
                     "Create a new Student",
                     "Create a new Class", "Classes a Student is in", "Exit" };
 
-            mainMenu = JOptionPane.showOptionDialog(null, "Welcome to Globant University!\n please choose an option",
+            mainMenu = JOptionPane.showOptionDialog(null,
+                    "<html><h1><center> Welcome to Globant University!\n Please choose one of the following options:",
                     "Globant University - Main Menu",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, universityLogo, buttons, buttons[0]);
 
