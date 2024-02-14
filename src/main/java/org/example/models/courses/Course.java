@@ -87,6 +87,8 @@ public class Course {
         return this.ID;
     }
 
+    // this boolean will be really usefull to quickly tell if any given student is
+    // on a specific class
     public boolean isStudentInClass(Student studentToCheck) {
 
         boolean is = false;

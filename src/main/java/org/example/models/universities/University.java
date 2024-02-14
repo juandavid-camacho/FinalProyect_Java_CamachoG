@@ -12,6 +12,7 @@ public class University {
     private List<Teacher> teacherList;
     private List<Course> classList;
 
+    // empty constructor to declare in Main before initializing
     public University() {
     }
 
@@ -48,6 +49,9 @@ public class University {
 
     }
 
+    // the "print" methods will return a HTML formatted (for better display in
+    // JOptionPanes) string will all the relevant info of a Student, Teacher or
+    // Class
     public String printStudents(List<Student> specifiedStudentList) {
 
         String print = "<html> <strong> ID | Name | Age </strong><br>";
@@ -63,6 +67,11 @@ public class University {
 
     }
 
+    // the "getButtons" methods will return an array of Strings that contain ID |
+    // Name of the type specified, this is usefull to populate the buttons and
+    // dropdown menus of JOptionPanes
+    // Each respective ID will be later read on in Menu using the substring String
+    // method
     public String[] getStudentsButtons() {
 
         String[] print = new String[studentList.size()];
