@@ -69,12 +69,30 @@ public class University {
 
         for (int i = 0; i < studentList.size(); i++) {
 
-            print[i] = studentList.get(i).getID();
+            print[i] = studentList.get(i).getID() + " | " + studentList.get(i).getName();
 
         }
 
         return print;
 
+    }
+
+    public String getClassesofStudent(Student student) {
+
+        String print = "<html> The student " + student.getName()
+                + " is in the following classes: <br><strong> ID | Name | Classroom | </strong><br>";
+
+        for (Course course : classList) {
+
+            if (course.isStudentInClass(student) == true) {
+
+                print += "<font style = 'font-weight: normal;'>" + (course.getID() + " | " + course.getName() + " | "
+                        + course.getClassroom() + "</font><br>");
+
+            }
+
+        }
+        return print;
     }
 
     public List<Teacher> getTeacherList() {
@@ -123,7 +141,7 @@ public class University {
 
         for (int i = 0; i < teacherList.size(); i++) {
 
-            print[i] = teacherList.get(i).getID();
+            print[i] = teacherList.get(i).getID() + " | " + teacherList.get(i).getName();
 
         }
 
@@ -139,6 +157,21 @@ public class University {
         this.classList = classList;
     }
 
+    public Course getClassByID(String ID) {
+
+        Course course = null;
+
+        for (Course course1 : classList) {
+
+            if (ID.equals(course1.getID())) {
+                course = course1;
+            }
+
+        }
+        return course;
+
+    }
+
     public String printClasses() {
 
         String print = "<html> <strong> ID | Name | Classroom | </strong><br>";
@@ -149,7 +182,7 @@ public class University {
                     + course.getClassroom() + "</font><br>");
 
         }
-        print += "<br>Choose one of the options down below to learn more of a specific class: </html>";
+        print += "<br>Choose one of the options down below to learn more about a specific class: </html>";
         return print;
 
     }
@@ -160,7 +193,7 @@ public class University {
 
         for (int i = 0; i < classList.size(); i++) {
 
-            print[i] = classList.get(i).getID();
+            print[i] = classList.get(i).getID() + " | " + classList.get(i).getName();
 
         }
 
