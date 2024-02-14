@@ -1,4 +1,7 @@
-package main.java.org.FinalProyect_CamachoG;
+package main.java.org.example.models.universities;
+
+import main.java.org.example.models.courses.Course;
+import main.java.org.example.models.people.*;
 
 import java.util.List;
 

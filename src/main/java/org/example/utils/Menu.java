@@ -1,11 +1,13 @@
-package main.java.org.FinalProyect_CamachoG;
+package main.java.org.example.utils;
+
+import main.java.org.example.models.courses.Course;
+import main.java.org.example.models.people.*;
+import main.java.org.example.models.universities.University;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
 public class Menu {
