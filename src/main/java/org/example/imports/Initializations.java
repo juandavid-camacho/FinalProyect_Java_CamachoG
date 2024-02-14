@@ -38,21 +38,28 @@ public class Initializations {
                                                 u.getStudentByID("STU5") }));
 
                 classList.add(new Course("Intoduction to Programming", "A201", studentList1,
-                                u.getTeacherByID("PROF1"), 4, 1, "Intro to programming in Java & Python"));
+                                u.getTeacherByID("PROF1"), 4, 1, "Intro to basic programming in Java & Python"));
 
                 List<Student> studentList2 = new ArrayList<Student>(Arrays.asList(
                                 new Student[] { u.getStudentByID("STU2") }));
 
                 classList.add(new Course("Object Oriented Programming", "B108",
                                 studentList2, u.getTeacherByID("PROF2"), 6, 2,
-                                "POO in Java"));
+                                "Basic Object Oriented Programming concepts in java aking into account the 4 pillars."));
 
                 List<Student> studentList3 = new ArrayList<Student>(Arrays.asList(
                                 new Student[] { u.getStudentByID("STU4"), u.getStudentByID("STU6") }));
 
                 classList.add(new Course("Testing", "B108",
-                                studentList3, u.getTeacherByID("PROF2"), 6, 3,
-                                "Testing automation"));
+                                studentList3, u.getTeacherByID("PROF3"), 6, 3,
+                                "Learning the basiscs of testing on web with selenium"));
+
+                List<Student> studentList4 = new ArrayList<Student>(Arrays.asList(
+                                new Student[] { u.getStudentByID("STU1"), u.getStudentByID("STU3") }));
+
+                classList.add(new Course("Intro to UX", "C311",
+                                studentList4, u.getTeacherByID("PROF4"), 4, 4,
+                                "An introduction to the User Experience while browsing"));
 
                 u.setClassList(classList);
 
